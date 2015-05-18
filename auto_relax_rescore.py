@@ -19,7 +19,7 @@ for wt in wts:
 score12_in.close()
 
 EXECUTABLE="/short/xc4/kbp502/gps4rosetta/Rosetta/main/source/bin/score.linuxgccrelease"
-BROKER_FLAG="-broker::setup ../setup/broker-ts34.txt -run:protocol broker -overwrite"
+BROKER_FLAG="-broker::setup ../setup/broker-ts4.txt -run:protocol broker -overwrite"
 DATABASE="-database /short/xc4/kbp502/gps4rosetta/Rosetta/main/database"
 FULL="-in:file:fullatom -in:file:silent ./relax_top_"+protein+"_r"+iter+".silent_file"
 WEIGHTS="-score:weights "+score12

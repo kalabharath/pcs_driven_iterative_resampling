@@ -28,7 +28,7 @@ patch4="-abinitio::stage3b_patch ${protein}_r${iter}.wts"
 patch5="-abinitio::stage4_patch ${protein}_r${iter}.wts"
 
 patch_flag="$patch1 $patch2 $patch3 $patch4 $patch5"
-broker_flag="-broker::setup ../setup/broker-ts34.txt -run:protocol broker -overwrite"
+broker_flag="-broker::setup ../setup/broker-ts4.txt -run:protocol broker -overwrite"
 
 mpirun="mpirun -np 1024"
 run="$mpirun $Executable $database $arg1 $arg2 $arg3 $arg4 $arg5 $arg6 $arg7 $arg8 $arg9 $arg10 $patch_flag $broker_flag"
