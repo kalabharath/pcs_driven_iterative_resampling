@@ -32,4 +32,7 @@ echo $run
 $run
 
 cat *.silent > ${protein}.silent_file ; rm *.silent
-qsub auto_pcswt.sh
+python auto_rescore.py > /dev/null
+python auto_pcswt.py > /dev/null
+qsub auto_gps.sh
+
