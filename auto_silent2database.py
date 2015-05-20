@@ -130,7 +130,7 @@ def silent2tensor(silentfile):
         database="-database /short/xc4/kbp502/gps4rosetta/Rosetta/main/database"
         pdbin = "-in:file:silent "+entry+str(".silent")
         extras="-in:file:fullatom"
-        broker="-broker::setup ../setup/broker-ts34.txt"
+        broker="-broker::setup ../setup/broker-ts4.txt"
         Tensor="-PCSTS1:write_extra "+entry+"_Ts1.tensor -PCSTS2:write_extra "+entry+"_Ts2.tensor -PCSTS3:write_extra "+entry+"_Ts3.tensor -PCSTS4:write_extra "+entry+"_Ts4.tensor"
         score_wts="-score:weights pcsweight.patch -mute all"
 #        print str(executable)+" "+str(database)+" "+str(pdbin)+" "+str(Tensor)+" "+str(extras)+" "+str(broker)+" "+str(score_wts)
