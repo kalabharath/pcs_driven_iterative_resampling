@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -P xc4
 #PBS -q normal
-#PBS -l walltime=1:00:00  
+#PBS -l walltime=2:00:00
 #PBS -l mem=128GB
 #PBS -l ncpus=128   
 #PBS -l wd   
@@ -11,7 +11,6 @@ module load openmpi
 Executable="/short/xc4/kbp502/gps4rosetta/Rosetta/main/source/bin/minirosetta.mpi.linuxgccrelease"
 database="-database /short/xc4/kbp502/gps4rosetta/Rosetta/main/database"
 protein=$(sed -n '1p' config.txt)
-echo $protein
 arg1="-abinitio::increase_cycles 5"
 arg3="-nstruct 1016"
 arg9="-mute all"
