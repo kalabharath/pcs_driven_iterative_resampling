@@ -1,6 +1,6 @@
 # pcs_driven_iterative_resampling
 
-#Reference article
+# Reference article
 
 Pseudocontact shift-driven iterative resampling for 3D structure determinations of large proteins </br>
 KB Pilla, G Otting, T Huber </br>
