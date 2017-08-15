@@ -9,9 +9,9 @@ Journal of molecular biology 428 (2), 522-532 </br>
 download the article from  http://kalabharath.github.io/ </br>
 # Dependencies
 -Rosetta, any version from 2015- till date. Download from https://www.rosettacommons.org/software/academic </br>
--Compile on any cluster or supercomputer with MPI enabled. On workstations, try at your own risk. </br>
--The current scripts are written for PBS load balancer, modify yourself for any other programs. </br>
+-Compile Rosetta on any cluster or supercomputer with MPI enabled. </br>
+-The current scripts are written for PBS load balancer, modify yourself for any other job submission platforms. </br>
 -Python 2.7 </br>
 
 # Support
-I will answer any of your questions on using PCSs in Rosetta. email me  kalabharath@gmail.com </br>
+I will answer any of your questions on using PCSs in Rosetta. email me at kalabharath@gmail.com </br>
