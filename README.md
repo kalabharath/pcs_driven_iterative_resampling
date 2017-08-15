@@ -6,7 +6,7 @@ Pseudocontact shift-driven iterative resampling for 3D structure determinations 
 KB Pilla, G Otting, T Huber </br>
 Journal of molecular biology 428 (2), 522-532 </br>
 
-download the article from  http://kalabharath.github.io/ </br>
+download the article from http://www.sciencedirect.com/science/article/pii/S0022283616000267 (or) http://kalabharath.github.io/ </br>
 # Dependencies
 -Rosetta, any version from 2015- till date. Download from https://www.rosettacommons.org/software/academic </br>
 -Compile Rosetta on any cluster or supercomputer with MPI enabled. </br>
