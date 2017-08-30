@@ -8,7 +8,7 @@ KB Pilla, G Otting, T Huber </br>
 Journal of molecular biology 428 (2), 522-532 </br>
 
 download the article from http://www.sciencedirect.com/science/article/pii/S0022283616000267 (or) http://kalabharath.github.io/ </br>
-# Running the algorithm.
+# Running the algorithm
 
 See the README files in all of the folders in the "./sample_run" for detailed explanation of different files and scripts needed for running the protocol. Please modify all of the relevant files for your own protein system. </br>
 
