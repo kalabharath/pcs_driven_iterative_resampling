@@ -1,5 +1,6 @@
-# pcs_driven_iterative_resampling
-
+# Pseudocontact shift-driven iterative resampling for 3D structure determinations of large proteins </br> 
+# Abstract </br>
+Pseudocontact shifts (PCSs) induced by paramagnetic lanthanides produce pronounced effects in nuclear magnetic resonance spectra, which are easily measured and which deliver valuable long-range structure restraints. Even sparse PCS data greatly enhance the success rate of 3D (3-dimensional) structure predictions of proteins by the modeling program Rosetta. The present work extends this approach to 3D structures of larger proteins, comprising more than 200 residues, which are difficult to model by Rosetta without additional experimental restraints. The new algorithm improves the fragment assembly method of Rosetta by utilizing PCSs generated from paramagnetic lanthanide ions attached at four different sites as the only experimental restraints. The sparse PCS data are utilized at multiple stages, to identify native-like local structures, to rank the best structural models and to rebuild the fragment libraries. The fragment libraries are refined iteratively until convergence. The PCS-driven iterative resampling algorithm is strictly data dependent and shown to generate accurate models for a benchmark set of eight different proteins, ranging from 100 to 220 residues, using solely PCSs of backbone amide protons. </br>
 # Reference article
 
 Pseudocontact shift-driven iterative resampling for 3D structure determinations of large proteins </br>
