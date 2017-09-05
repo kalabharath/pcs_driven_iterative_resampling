@@ -1,6 +1,7 @@
 Setup</br>
 ------------
 * PCS input files </br>
+The PCSs are measured experimentally. The experimental details can be found in this publication: Crick, D. J. et al. Integral membrane protein structure determination using pseudocontact shifts. J. Biomol. NMR 61, 197–207 (2015). </br>
 Setup Experimental NMR data in a file format that ROSETTA can understand. </br>
 PCSs from each metal goes into a separate Numbat (.npc) file </br>
 npc file is in the format </br>
