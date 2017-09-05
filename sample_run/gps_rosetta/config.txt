@@ -1,4 +1,4 @@
-# See README file to fill this file. Do not delete this line. This file must have only 4 lines.
+# Do not delete this line. This file must have only 4 lines. *1. place holder or PDBID. *2. starting or current round (default to zero). *3. total number of iterations (default 10)
 1h68
-10
+0
 10
