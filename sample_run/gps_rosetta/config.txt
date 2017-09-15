@@ -1,4 +1,7 @@
-# Do not delete this line. This file must have only 4 lines. *1. place holder or PDBID. *2. starting or current round (default to zero). *3. total number of iterations (default 10)
-1h68
-0
-10
+# Do not delete this line. Modify the below lines for your protein system
+minirosetta_exe=/home/kalabharath/software/rosetta3.8/main/source/bin/minirosetta.mpi.linuxgccrelease
+score_exe =/home/kalabharath/software/rosetta3.8/main/source/bin/score.mpi.linuxgccrelease
+database =/home/kalabharath/software/rosetta3.8/main/database/
+pdbid=1h68
+total_iterations=10
+current_iteration=0
