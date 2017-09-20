@@ -274,7 +274,6 @@ frag3=open("frag3_"+protein+"_r0.tab",'r') # 3mer fragment database for the give
 for p in range (0, (len(residue_list)-8)):
     line_9=frag9.readline()  # read positions
     try:
-
         posk, res_window, neigh, pdb_nos = line_9.split()
     except:
         continue
@@ -293,7 +292,10 @@ print "Read old frag9 file"
 
 for p in range (0, (len(residue_list)-2)):
     line_3=frag3.readline()  # read positions
-    posk, res_window, neigh, pdb_nos = line_3.split()
+    try:
+        posk, res_window, neigh, pdb_nos = line_3.split()
+    except:
+        continue
     frag3_db.setdefault(int(res_window),[])
     for q in range (0, int(pdb_nos)): #iterate 200 times or number of neighbours as specified in the fragment library
         line_3=frag3.readline()      # read the empty line
