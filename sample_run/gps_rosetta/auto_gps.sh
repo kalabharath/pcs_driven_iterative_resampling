@@ -3,7 +3,7 @@
 #PBS -l walltime=5:00:00
 #PBS -l mem=2000GB
 #PBS -l ncpus=1024
-#PBS -l wd   
+#PBS -l wd
 
 #Load required module to run mpi compiled rosetta executables
 module load openmpi
@@ -21,10 +21,10 @@ module load openmpi
 
 Executable_path=$(sed -n '2p' config.txt)
 Executable="$(cut -d'=' -f2 <<<"$Executable_path")"
-database_path=$(sed -n '4p' config.txt)
+database_path=$(sed -n '5p' config.txt)
 database="$(cut -d'=' -f2 <<<"$database_path")"
 database="-database $database"
-protein=$(sed -n '5p' config.txt)
+protein=$(sed -n '6p' config.txt)
 protein="$(cut -d'=' -f2 <<<"$protein")"
 arg1="-abinitio::increase_cycles 5"
 arg2="-abinitio::rg_reweight 0.5 -abinitio::rsd_wt_helix 0.5 -abinitio::rsd_wt_loop 0.5 -abinitio::use_filters false"

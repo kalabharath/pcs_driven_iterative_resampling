@@ -1,6 +1,6 @@
 import collections
 import os
-protein = (os.popen("sed -n '5p' config.txt").read()).rstrip()
+protein = (os.popen("sed -n '6p' config.txt").read()).rstrip()
 protein = protein.split("=")
 protein = protein[1]
 os.system("mv score.fsc score_cs.fsc")
@@ -50,7 +50,8 @@ cs_low = sum(cs_score[0:100]) / 100.0
 cs_high = sum(cs_score[-100:]) / 100.0
 
 output = open(protein + "_r0.wts", 'w', 1)
-# output1.write("METHOD_WEIGHTS ref  0.16 1.7 -0.67 -0.81 0.63 -0.17 0.56 0.24 -0.65 -0.1 -0.34 -0.89 0.02 -0.97 -0.98 -0.37 -0.27 0.29 0.91 0.51 \n")
+relax_wts =  open(protein + "_relax.wts", 'w', 1)
+relax_wts.write("METHOD_WEIGHTS ref  0.16 1.7 -0.67 -0.81 0.63 -0.17 0.56 0.24 -0.65 -0.1 -0.34 -0.89 0.02 -0.97 -0.98 -0.37 -0.27 0.29 0.91 0.51 \n")
 for i in range(0, len(no_of_tags)):
     tag = 'pcsTs' + str(i + 1)
     tag_score = pcs_score[tag]
@@ -59,8 +60,9 @@ for i in range(0, len(no_of_tags)):
     tag_high = sum(tag_score[-100:]) / 100.0
     pcs_weights = ((cs_high - cs_low) / (tag_high - tag_low))
     ttag = round(pcs_weights / float(len(no_of_tags)), 3)
-    tmp_line = tag+"   =  "+str(ttag)+  "\n"
+    tmp_line = tag + "   =  " + str(ttag) + "\n"
+    rtmp_line = tag + "    " + str(ttag) + "\n"
     output.write(tmp_line)
-
+    relax_wts.write(rtmp_line)
 output.close()
-#output1.close()
+relax_wts.close()

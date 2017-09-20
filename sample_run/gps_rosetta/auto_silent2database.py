@@ -1,42 +1,76 @@
-import sys, os, glob
+import sys, os, glob, time, itertools
 
-
-############################################
-######## Config variables  ##########
-############################################
-
-pcs_percent_frags = 12
-old_percent_frags = 88
-
-db9_dict,db3_dict={},{}
-frag9_db,frag3_db={},{}
-
-
-os.chdir("./")
+def updateIteration(iteration):
+    with open("config.txt") as fin:
+        lines = fin.readlines()
+    fout = open("config.txt", 'w')
+    for i in range(0, len(lines)-1):
+        fout.write(lines[i])
+    tline = lines[6].split("=")
+    tmp = tline[0] + "="+str(iteration)
+    fout.write(tmp)
+    fout.close()
+    return True
 
 def setup_variables():
-    global database, database2, frag9, frag3, silentfile, protein,current_iter
-    config=open('config.txt','r')
-    protein=str(config.readline())
-    max_iter=int(config.readline())
-    current_iter=int(config.readline())
-    config.close()
+    protein=(os.popen("sed -n '6p' config.txt").read()).rstrip()
+    protein = protein.split("=")
+    protein = protein[1]
+    current_iter=(os.popen("sed -n '8p' config.txt").read()).rstrip()
+    current_iter = current_iter.split("=")
+    current_iter = int(current_iter[1])
+    max_iter=(os.popen("sed -n '7p' config.txt").read()).rstrip()
+    max_iter = max_iter.split("=")
+    max_iter = int(max_iter[1])
     if (max_iter==current_iter):
         exit()
-    current_iter=current_iter+1
-    config=open('config.txt','w')
-    config.write(protein)
-    config.write(str(max_iter)+"\n")
-    config.write(str(current_iter))
-    config.close()
-    protein=protein.rstrip()
-    database=open("frag9_"+protein+"_r"+str(current_iter)+".tab",'w') # output frag9_ file suffix
-    database2=open("frag3_"+protein+"_r"+str(current_iter)+".tab",'w')# output frag3_ file suffix
-    frag9=open("frag9_"+protein+"_r0.tab",'r') # 9mer fragment database for the given protein
-    frag3=open("frag3_"+protein+"_r0.tab",'r') # 3mer fragment database for the given protein
-    # silentfile = protein+str("_r")+str(current_iter-1)+str(".silent_file")
-    silentfile = "top_relax_top_"+protein+"_r"+str(current_iter-1)+".silent_file"
+    return protein, current_iter
 
+
+def silent2tensor(silentfile, tags):
+
+    f1=open(silentfile,'r')
+    line1=f1.readline()
+    line2=f1.readline()
+    line=f1.readline()
+    description=[]
+    while (line):
+        entries=line.split(' ')
+        print entries[-1].rstrip()
+        temp=open(entries[-1].rstrip()+str(".silent"), 'w')
+        description.append(entries[-1].rstrip())
+        temp.write(line1)
+        temp.write(line2)
+        temp.write(line)
+        line=f1.readline()
+        while (line[0:5]!='SCORE'):
+            temp.write(line)
+            line=f1.readline()
+            if((line=='') or (line=='\n') or (line==' ') ):
+                break
+        temp.close()
+    print description
+    for entry in description:
+        exe_path=(os.popen("sed -n '3p' config.txt").read()).rstrip()
+        exe_path = exe_path.split("=")
+        exe_path = exe_path [1]
+        database_path = (os.popen("sed -n '5p' config.txt").read()).rstrip()
+        database_path = database_path.split("=")
+        database_path = '-database '+database_path[1]
+        silentin = "-in:file:silent "+entry+str(".silent")
+        extras="-in:file:fullatom -mute all"
+        broker="-broker::setup ../setup/broker.txt"
+        mpi="mpirun -np 2"
+        tensor = ''
+        for i in range(0, len(tags)):
+            tensor = tensor + "-PCSTS"+str(i+1)+":write_extra "+entry+"_Ts"+str(i+1)+".tensor  "
+        score_wts="-score:weights pcsweight.patch -mute all"
+        run_score= mpi+" "+exe_path+" "+database_path+" "+silentin+" "+tensor+" "+extras+" "+broker+" "+score_wts+"&"
+        print run_score
+        os.system(run_score)
+        time.sleep(0.5)
+    time.sleep(20)
+    return True
 
 def make_dict(array):
     tmp_dict={}
@@ -65,7 +99,6 @@ def make_silent_dict(array):
 def score(array, dictionary):
     sum_dev=0
     num=0
-
     for entry in array:
         try:
             for abs_dev in dictionary[entry]:
@@ -73,94 +106,67 @@ def score(array, dictionary):
                 sum_dev=sum_dev+abs_dev
         except:
             pass
-    #if (( sum_dev <= num * 0.05) and (num!=0)) :
-    
     if (( sum_dev <= num * 0.05) and (num >= 4)) :
         return True
-
     else:
         return False
 
 
 def fourCtwo(score_list):
-    import itertools
     combi_list = list(itertools.combinations(score_list, 2))
-    #print combi_list
     for combi in combi_list:
         c1 = combi[0]
         c2 = combi[1]
         if c1 and c2:
-            #print combi
             return True
     return False
-    
 
-    
-def silent2tensor(silentfile):
-    try:
-        f1=open(silentfile,'r')
-    except:
-        exit()
 
-    line1=f1.readline()
-    line2=f1.readline()
-    line=f1.readline()
+############################################
+######## Config variables  ##########
+############################################
 
-    description=[]
-    while (line):
-        entries=line.split(' ')
-        print entries[-1].rstrip()
-        temp=open(entries[-1].rstrip()+str(".silent"), 'w')
-        description.append(entries[-1].rstrip())
-        temp.write(line1)
-        temp.write(line2)
-        temp.write(line)
-        line=f1.readline()
-        while (line[0:5]!='SCORE'):
-            temp.write(line)
-            line=f1.readline()
-            if((line=='') or (line=='\n') or (line==' ') ):
-                break
-        temp.close()
+pcs_percent_frags = 12
+old_percent_frags = 88
 
-    for entry in description:
-        #executable ="/home/kalabharath/Git_Rosetta/Rosetta/main/source/bin/score.linuxgccrelease"
-        #database ="-database /home/kalabharath/Git_Rosetta/Rosetta/main/database"
-        executable="mpirun -np 2 /short/xc4/kbp502/gps4rosetta/Rosetta/main/source/bin/score.linuxgccrelease"
-        database="-database /short/xc4/kbp502/gps4rosetta/Rosetta/main/database"
-        pdbin = "-in:file:silent "+entry+str(".silent")
-        extras="-in:file:fullatom"
-        broker="-broker::setup ../setup/broker-ts4.txt"
-        Tensor="-PCSTS1:write_extra "+entry+"_Ts1.tensor -PCSTS2:write_extra "+entry+"_Ts2.tensor -PCSTS3:write_extra "+entry+"_Ts3.tensor -PCSTS4:write_extra "+entry+"_Ts4.tensor"
-        score_wts="-score:weights pcsweight.patch -mute all"
-#        print str(executable)+" "+str(database)+" "+str(pdbin)+" "+str(Tensor)+" "+str(extras)+" "+str(broker)+" "+str(score_wts)
-        os.system(str(executable)+" "+str(database)+" "+str(pdbin)+" "+str(Tensor)+" "+str(extras)+" "+str(broker)+" "+str(score_wts))
+db9_dict,db3_dict={},{}
+frag9_db,frag3_db={},{}
 
-############################################################################################################################################
+protein, current_iter = setup_variables()
+silentfile = "top_relax_top_"+protein+"_r"+str(current_iter)+".silent_file"
 
-setup_variables()
-silent2tensor(silentfile)
-
-rescore_file="pcs_"+protein+"_relax_top_rescore_r"+str(current_iter-1)+".fsc"
-rescore_filein=open(rescore_file,'r')
-scorelines=rescore_filein.readlines()
-rescore_filein.close()
-
-wts_file=protein+"_r"+str(current_iter-1)+".wts"
+wts_file=protein+"_r"+str(current_iter)+".wts"
 fin = open(wts_file,'r')
 wts = fin.readlines()
 current_wts = []
+tags = []
 for wt in wts:
     tag, wf = wt.split("=")
-    current_wts.append(float(wf))   
+    current_wts.append(float(wf))
+    tags.append(tag.strip())
 
-
+#silent2tensor(silentfile,tags)
 score_dict={}
+with open("pcs_"+protein+"_relax_top_rescore_r"+str(current_iter)+".fsc") as fin:
+    scorelines=fin.readlines()
+    tag_indices = []
+
+tline = scorelines[0].split()
+for i in range(0, len(tline)):
+    tentry = tline[i].strip()
+    for tag in tags:
+        tag = tag.strip()
+        if tentry == tag:
+            tag_indices.append(i)
+
 for i in range(1,len(scorelines)):
     sline=scorelines[i].split()
+    # use normalised pcs
     if sline[0]=='SCORE:':
-        #score_dict[float(sline[1])]=sline[-1][:-5]
-        score_dict[float(sline[7])/current_wts[0]+float(sline[8])/current_wts[1]+float(sline[9])/current_wts[2]+float(sline[10])/current_wts[3]]=sline[-1][:-5]
+        total_pcs_score = 0
+        for j in range(0, len(tag_indices)):
+            total_pcs_score = total_pcs_score + float(sline[tag_indices[j]])/current_wts[j]
+        score_dict[total_pcs_score] = sline[-1][:-5]
 
 scores=score_dict.keys()
 scores.sort()
@@ -168,23 +174,24 @@ scores.sort()
 top_100=[]
 for j in range(0,100):
     decoy=score_dict[scores[j]]
-    if decoy !='S_0032_0003':
-        top_100.append(decoy)
+    top_100.append(decoy)
 
 print top_100, len(top_100)
 
-
-# for file in glob.glob("*.silent"):
-
 for file in top_100:
-
     file=file+".silent"
     ktemp=[]
     silentin = open(file,'r')
     file=file[:-7]
-
     #read in all the tensor files
+    tag_dicts = []
+    for i in range(0, len(tags)):
+        ten_file = file+"_Ts"+str(i+1)+".tensor"
+        with open(ten_file) as fin:
+            tdict = make_dict(fin.readlines())
+            tag_dicts.append(tdict)
 
+    """
     Ts1_in = open(file+"_Ts1.tensor",'r')
     Ts2_in = open(file+"_Ts2.tensor",'r')
     Ts3_in = open(file+"_Ts3.tensor",'r')
@@ -194,6 +201,7 @@ for file in top_100:
     Ts2_dict = make_dict(Ts2_in.readlines())
     Ts3_dict = make_dict(Ts3_in.readlines())
     Ts4_dict = make_dict(Ts4_in.readlines())
+    """
 
     seq,silent_dict = make_silent_dict(silentin.readlines())
     residue_list=silent_dict.keys()
@@ -203,38 +211,58 @@ for file in top_100:
         tmp_seq=seq[i:i+9]
 
         if (len(window)==9):
+            tscores = []
+
+            for i in range(0, len(tags)):
+                tscores.append(score(window, tag_dicts[i]))
+            """
             Ts1_score=score(window, Ts1_dict)
             Ts2_score=score(window, Ts2_dict)
             Ts3_score=score(window, Ts3_dict)
             Ts4_score=score(window, Ts4_dict)
+            """
+            if len(tscores) == 4:
+
+                if fourCtwo(tscores):
+                    db9_dict.setdefault((i+1), [])
+                    for j in range (0, len(window)):
+                        #pdb  AA SS  Pf#  Pb#   V# BFactor     CA_x     CA_y     CA_z      Phi      Psi    Omega
+                        db9_dict.setdefault((i+1), []).append([file[2:6],file[0],(i+j+1),tmp_seq[j],silent_dict[window[j]][0],silent_dict[window[j]][4],silent_dict[window[j]][5],silent_dict[window[j]][6]])
+                    for k in range (0, (len(window)-3)):
+                        if ((i+k+1) in ktemp):
+                                break
+                        else:
+                            ktemp.append((i+k+1))
+                            db3_dict.setdefault((i+k+1), [])
+                        for l in range (k, k+3):
+                            db3_dict.setdefault((i+k+1), []).append([file[2:6],file[0],(i+l+1),tmp_seq[l],silent_dict[window[l]][0],silent_dict[window[l]][4],silent_dict[window[l]][5],silent_dict[window[l]][6]])
+            if len(tscores) == 3 :
+
+                if((tscores[0] and tscores[1]) or (  tscores[1]and  tscores[2]) or ( tscores[0] and  tscores[2])): #combination of two pairs
+                    db9_dict.setdefault((i+1), [])
+                    for j in range (0, len(window)):
+                        #pdb  AA SS  Pf#  Pb#   V# BFactor     CA_x     CA_y     CA_z      Phi      Psi    Omega
+                        db9_dict.setdefault((i+1), []).append([file[2:6],file[0],(i+j+1),tmp_seq[j],silent_dict[window[j]][0],silent_dict[window[j]][4],silent_dict[window[j]][5],silent_dict[window[j]][6]])
+                    for k in range (0, (len(window)-3)):
+                        if ((i+k+1) in ktemp):
+                                break
+                        else:
+                            ktemp.append((i+k+1))
+                            db3_dict.setdefault((i+k+1), [])
+                        for l in range (k, k+3):
+                            db3_dict.setdefault((i+k+1), []).append([file[2:6],file[0],(i+l+1),tmp_seq[l],silent_dict[window[l]][0],silent_dict[window[l]][4],silent_dict[window[l]][5],silent_dict[window[l]][6]])
 
 
-            if fourCtwo([Ts1_score, Ts2_score, Ts3_score, Ts4_score]):
-            #if Ts1_score or Ts2_score or Ts3_score or Ts4_score:
-            #if((Ts1_score and Ts2_score) or (Ts2_score and Ts3_score) or (Ts1_score and Ts3_score)): #combination of two pairs
-            #if(Ts1_score and Ts2_score and Ts3_score):
-                db9_dict.setdefault((i+1), [])
-                for j in range (0, len(window)):
-                    #pdb  AA SS  Pf#  Pb#   V# BFactor     CA_x     CA_y     CA_z      Phi      Psi    Omega
-                    db9_dict.setdefault((i+1), []).append([file[2:6],file[0],(i+j+1),tmp_seq[j],silent_dict[window[j]][0],silent_dict[window[j]][4],silent_dict[window[j]][5],silent_dict[window[j]][6]])
-                for k in range (0, (len(window)-3)):
-                    if ((i+k+1) in ktemp):
-                            break
-                    else:
-                        ktemp.append((i+k+1))
-                        db3_dict.setdefault((i+k+1), [])
-                    for l in range (k, k+3):
-                        db3_dict.setdefault((i+k+1), []).append([file[2:6],file[0],(i+l+1),tmp_seq[l],silent_dict[window[l]][0],silent_dict[window[l]][4],silent_dict[window[l]][5],silent_dict[window[l]][6]])
-
-    #print ("finished screening PCS on structure "+str(file))
     silentin.close()
 
-    Ts1_in.close()
-    Ts2_in.close()
-    Ts3_in.close()
-    Ts4_in.close()
+
 
 print "Generating new Fragment files "
+
+database=open("frag9_"+protein+"_r"+str(current_iter+1)+".tab",'w') # output frag9_ file suffix
+database2=open("frag3_"+protein+"_r"+str(current_iter+1)+".tab",'w')# output frag3_ file suffix
+frag9=open("frag9_"+protein+"_r0.tab",'r') # 9mer fragment database for the given protein
+frag3=open("frag3_"+protein+"_r0.tab",'r') # 3mer fragment database for the given protein
 
 ################################################################
 ######## Read in the server generated frag9 file ##########
@@ -245,7 +273,11 @@ print "Generating new Fragment files "
 
 for p in range (0, (len(residue_list)-8)):
     line_9=frag9.readline()  # read positions
-    posk, res_window, neigh, pdb_nos = line_9.split()
+    try:
+
+        posk, res_window, neigh, pdb_nos = line_9.split()
+    except:
+        continue
     frag9_db.setdefault(int(res_window),[])
     for q in range (0, int(pdb_nos)): #iterate 200 times or number of neighbours as specified in the fragment library
         line_9=frag9.readline()      # read the empty line
@@ -281,7 +313,7 @@ t_count = 0
 for pos in range (1, (len(residue_list)-7)):
     if db9_dict.has_key(pos)==frag9_db.has_key(pos):
         t_count +=1
-        
+
         no_of_entries = (len(db9_dict.get(pos)))/9
         print pos, t_count, no_of_entries
         # determine number of iterations for pcs_frags and number of entries from old_library
@@ -312,6 +344,7 @@ for pos in range (1, (len(residue_list)-7)):
         temp=0
         for iterations in range (0, iters):
             for entry in db9_dict.get(pos):
+
                 if (temp >= (9*(pcs_entries+old_entries))):
                     contrl_old=False
                     break
@@ -418,14 +451,12 @@ print "Generated new frag3 file "+str(database2)
 print "all done"
 database.close()
 database2.close()
-backup_dir = "backup_dir_r"+str(current_iter-1)
-make_dir = "mkdir "+backup_dir 
+updateIteration(current_iter+1)
+backup_dir = "backup_dir_r"+str(current_iter)
+make_dir = "mkdir "+backup_dir
 os.system(make_dir)
 mv_files = "mv S_* "+backup_dir
 os.system(mv_files)
-#os.system("qsub auto_cs_iterwts.sh")
-#os.system("rm -rf S_*")
-cp_wts="cp "+protein+"_r0.wts "+protein+"_r"+str(current_iter)+".wts"
+cp_wts="cp "+protein+"_r0.wts "+protein+"_r"+str(current_iter+1)+".wts"
 os.system(cp_wts)
 os.system("qsub auto_iter.sh")
-###########################################

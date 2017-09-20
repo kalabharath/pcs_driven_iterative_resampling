@@ -20,17 +20,17 @@ def calc_weight(broker_t):
     for entry in broker_t:
         broker_line = broker_line+entry+" "
 
-    protein=(os.popen("sed -n '5p' config.txt").read()).rstrip()
+    protein = (os.popen("sed -n '6p' config.txt").read()).rstrip()
     protein = protein.split("=")
     protein = protein[1]
-    iter=(os.popen("sed -n '7p' config.txt").read()).rstrip()
+    iter = (os.popen("sed -n '8p' config.txt").read()).rstrip()
     iter = iter.split("=")
     iter = iter[1]
     exe_path=(os.popen("sed -n '3p' config.txt").read()).rstrip()
     exe_path = exe_path.split("=")
     exe_path = exe_path [1]
     broker_flag=broker_line
-    database_path = (os.popen("sed -n '4p' config.txt").read()).rstrip()
+    database_path = (os.popen("sed -n '5p' config.txt").read()).rstrip()
     database_path = database_path.split("=")
     database_path = '-database '+database_path[1]
     full="-in:file:silent ./"+protein+".silent_file -mute all"
