@@ -26,7 +26,7 @@ database="$(cut -d'=' -f2 <<<"$database_path")"
 database="-database $database"
 protein=$(sed -n '6p' config.txt)
 protein="$(cut -d'=' -f2 <<<"$protein")"
-arg1="-abinitio::increase_cycles 5"
+arg1="-abinitio::increase_cycles 5.0"
 arg2="-abinitio::rg_reweight 0.5 -abinitio::rsd_wt_helix 0.5 -abinitio::rsd_wt_loop 0.5 -abinitio::use_filters false"
 arg3="-nstruct 2046"
 arg4="-mute all"

@@ -2,7 +2,7 @@
 minirosetta_exe=/home/kalabharath/software/rosetta3.8/main/source/bin/minirosetta.mpi.linuxgccrelease
 score_exe =/home/kalabharath/software/rosetta3.8/main/source/bin/score.mpi.linuxgccrelease
 relax_exe =/home/kalabharath/software/rosetta3.8/main/source/bin/relax.mpi.linuxgccrelease
-database =/home/kalabharath/software/rosetta3.8/main/database/
+database =/home/kalabharath/software/rosetta3.8/main/database
 pdbid=1h68
 max_iterations=10
 max_iterations=1

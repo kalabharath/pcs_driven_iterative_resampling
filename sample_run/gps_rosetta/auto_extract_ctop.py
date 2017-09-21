@@ -62,18 +62,26 @@ print "top_200 entries are :\n ", top_200
 for x in range (0,2):
     fileout.write(lines[x])
 
+i = 2
+count =0
 for i in range(2,len(lines)):
     line=lines[i].split()
     if (line[0]=='SCORE:') and (line[-1] in top_200):
         fileout.write(lines[i])
         i=i+1
+        count += 1
         line=lines[i].split()
         while (line[0]!='SCORE:'):
             fileout.write(lines[i])
             i=i+1
-            line=lines[i].split()
+            if i == len(lines):
+                break
+            else:
+                line=lines[i].split()
+
+
 
 fileout.close()
 # give a min to write to disk before you start your next job
-time.sleep(60)
+#time.sleep(60)
 exit()
