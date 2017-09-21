@@ -2,7 +2,7 @@
 #Setup for PBS load balancing
 #PBS -P xc4
 #PBS -q normal
-#PBS -l walltime=1:00:00
+#PBS -l walltime=3:00:00
 #PBS -l mem=128GB
 #PBS -l ncpus=128
 #PBS -l wd
@@ -38,10 +38,10 @@ arg6="-frag3 ./frag3_${protein}_r0.tab"
 arg7="-native ../setup/idealized_$protein.pdb"
 arg8="-out::file::silent $protein.silent"
 arg9="-mute all"
-mpirun="mpirun -np 12"
+mpirun="mpirun -np 128"
 run="$mpirun $Executable $database $fasta $arg1 $arg2 $arg3 $arg5 $arg6 $arg7 $arg8 $arg9 $arg10 $patch_flag $broker_flag $exclude $extras"
 echo $run
-#$run
+$run
 
 # combine all of the individual files into one manageable file.
 cat *.silent > ${protein}.silent_file

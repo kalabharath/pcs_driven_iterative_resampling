@@ -23,7 +23,7 @@ arg0="-in:file:silent  top_${protein}_r${iter}.silent_file"
 arg1="-out:file:silent relax_top_${protein}_r${iter}.silent_file"
 arg2="-in:file:native ../setup/idealized_$protein.pdb"
 arg3="-mute all"
-mpirun="mpirun -np 6"
+mpirun="mpirun -np 64"
 run="$mpirun $Executable $database $arg0 $arg1 $arg2 $arg3"
 echo $run
 $run

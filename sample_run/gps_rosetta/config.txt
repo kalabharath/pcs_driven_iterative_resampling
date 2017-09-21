@@ -5,4 +5,4 @@ relax_exe =/home/kalabharath/software/rosetta3.8/main/source/bin/relax.mpi.linux
 database =/home/kalabharath/software/rosetta3.8/main/database
 pdbid=1h68
 max_iterations=10
-max_iterations=1
+start_iterations=1
