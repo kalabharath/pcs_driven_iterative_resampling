@@ -16,11 +16,12 @@ Ideally the "config.txt" is the only file that you need to modify to carry out t
 
 # Modify the headers of all ".sh" files </br>
 You have to modify the headers to match the job queuing system on your super computer. especially walltime and ncpus. The given headers work on "NCI's Raijin" </br>
-"#PBS -P xc4"
-"#PBS -q normal"
-"#PBS -l walltime=6:00:00"
-"#PBS -l mem=2000GB"
-"#PBS -l ncpus=1024"
-"#PBS -l wd"
-"#Load required module to run mpi compiled rosetta executables"
-"module load openmpi"
+"#PBS -P xc4" </br>
+"#PBS -q normal" </br>
+"#PBS -l walltime=6:00:00" </br>
+"#PBS -l mem=2000GB" </br>
+"#PBS -l ncpus=1024" </br>
+"#PBS -l wd" </br>
+"#Load required module to run mpi compiled rosetta executables" </br>
+"module load openmpi" </br>
+Also change the "mpirun" variable to match the ncpus </br>
