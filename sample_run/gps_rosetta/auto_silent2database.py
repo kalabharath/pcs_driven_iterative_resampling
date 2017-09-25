@@ -1,7 +1,53 @@
 import itertools
-import os
+import sys, os
 import time
 
+def checkConvergence(protein, current_iter):
+
+    lowest_score = []
+    for i in range(0, current_iter):
+
+        infile = "pcs_"+protein+"_relax_top_rescore_r"+str(i)+".fsc"
+        print infile
+        with open(infile) as fin:
+            lines = fin.readlines()
+
+        wts_file=protein+"_r"+str(i)+".wts"
+        fin = open(wts_file,'r')
+        wts = fin.readlines()
+        current_wts = []
+        tags = []
+        for wt in wts:
+            tag, wf = wt.split("=")
+            current_wts.append(float(wf))
+            tags.append(tag)
+        tag_indices = []
+        tline = lines[0].split()
+        print tline
+        for j in range(0, len(tline)):
+            tentry = tline[j].strip()
+            for tag in tags:
+                tag = tag.strip()
+                if tentry == tag:
+                    tag_indices.append(j)
+        t = []
+        print tag_indices
+        for k in range(1,len(lines)):
+            sline=lines[k].split()
+            # use normalised pcs
+            if sline[0]=='SCORE:':
+                total_pcs_score = 0
+                for j in range(0, len(tag_indices)):
+                    total_pcs_score = total_pcs_score + float(sline[tag_indices[j]])/current_wts[j]
+                total_pcs_score = round(total_pcs_score, 3)
+                t.append(total_pcs_score)
+        t.sort()
+        lowest_score.append(t)
+    for q in range(1, len(lowest_score)-1):
+        if lowest_score[q+1][0] >= lowest_score[q][0]:
+            print "converge achieved at iteration: ", q
+            sys.exit()
+    return True
 
 def updateIteration(iteration):
     with open("config.txt") as fin:
@@ -140,6 +186,7 @@ db9_dict, db3_dict = {}, {}
 frag9_db, frag3_db = {}, {}
 
 protein, current_iter = setup_variables()
+checkConvergence(protein, current_iter)
 silentfile = "top_relax_top_" + protein + "_r" + str(current_iter) + ".silent_file"
 
 wts_file = protein + "_r" + str(current_iter) + ".wts"
@@ -152,7 +199,7 @@ for wt in wts:
     current_wts.append(float(wf))
     tags.append(tag.strip())
 
-# silent2tensor(silentfile,tags)
+silent2tensor(silentfile,tags)
 score_dict = {}
 with open("pcs_" + protein + "_relax_top_rescore_r" + str(current_iter) + ".fsc") as fin:
     scorelines = fin.readlines()

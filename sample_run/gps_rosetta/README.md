@@ -5,9 +5,22 @@ Eg: for your own target it should be of the format "frag9_PDBID_r0.tab". The "r0
 to be used for 'round zero'. The fragment libraries for the subsequent rounds are generated automatically. 
 
 # Setup 'Config.txt' </br>
-The config file is where you setup your total number of GPS-Rosetta iterations. The config file only contains 4 lines. </br>
-*1. line is the description. do not edit or delete this line. </br> 
-*2. Place holder (or) pdbid. Should match the 'PDBID' descriptor as in the fragment files. eg: 'frag9_1h68_r0.tab', where 'PDBID is '1h68'. </br>
-*3. Current iteration, defaults to zero (0). This number updates automatically with increase in iteration by the algorithm. However, if you want to restart your run from any iteration, modify the line to any number. </br>
-*4. Total number of iterations to run GPS-Rosetta. The algorithm quits automatically when it reaches convergence (or) it iterates to a total number of specified
-iterations as given here. Defaults to ten iterations.</br>
+Ideally the "config.txt" is the only file that you need to modify to carry out the iterative-GPS Rosetta protocol. </br>
+1. The path to your minirosetta.mpi.linuxgccrelease executable </br>
+2. The path to your score.mpi.linuxgccrelease executable </br>
+3. The path to your relax.mpi.linuxgccrelease executable </br>
+4. The path to your Rosetta database </br>
+5. Place holder (or) pdbid. Should match the 'PDBID' descriptor as in the fragment files. eg: 'frag9_1h68_r0.tab', where 'PDBID is '1h68'. </br>
+6. Total number of iterations to run GPS-Rosetta. The algorithm quits automatically when it reaches convergence (or) it iterates to a total number of specified iterations as given here. </br>
+7. Current iteration, defaults to zero (0). This number updates automatically with increase in iteration by the algorithm. However, if you want to restart your run from any iteration, modify the line to desired iteration. </br>
+
+# Modify the headers of all ".sh" files </br>
+You have to modify the headers to match the job queuing system on your super computer. especially walltime and ncpus. The given headers work on "NCI's Raijin" </br>
+"#PBS -P xc4"
+"#PBS -q normal"
+"#PBS -l walltime=6:00:00"
+"#PBS -l mem=2000GB"
+"#PBS -l ncpus=1024"
+"#PBS -l wd"
+"#Load required module to run mpi compiled rosetta executables"
+"module load openmpi"

@@ -1,6 +1,6 @@
 #PBS -P xc4
 #PBS -q normal
-#PBS -l walltime=5:00:00
+#PBS -l walltime=6:00:00
 #PBS -l mem=2000GB
 #PBS -l ncpus=1024
 #PBS -l wd

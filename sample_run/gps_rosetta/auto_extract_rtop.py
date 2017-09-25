@@ -28,7 +28,8 @@ for wt in wts:
 score_dict={}
 with open("pcs_"+protein+"_relax_top_rescore_r"+str(current_iter)+".fsc") as fin:
     scorelines=fin.readlines()
-    tag_indices = []
+
+tag_indices = []
 
 tline = scorelines[0].split()
 print tline
