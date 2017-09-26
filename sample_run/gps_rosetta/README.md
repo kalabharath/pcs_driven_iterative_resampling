@@ -27,6 +27,6 @@ You have to modify the headers to match the job queuing system on your super com
 Also change the "mpirun" variable to match the ncpus </br>
 
 # The Algorithm is encoded in four .sh files as
-![Screenshot] (./iterGPSrosetta.png)
-![wtf] (https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
+
+![Screenshot] (https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
 
