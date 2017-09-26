@@ -186,7 +186,9 @@ db9_dict, db3_dict = {}, {}
 frag9_db, frag3_db = {}, {}
 
 protein, current_iter = setup_variables()
-checkConvergence(protein, current_iter)
+if current_iter > 1:
+    checkConvergence(protein, current_iter)
+    
 silentfile = "top_relax_top_" + protein + "_r" + str(current_iter) + ".silent_file"
 
 wts_file = protein + "_r" + str(current_iter) + ".wts"
