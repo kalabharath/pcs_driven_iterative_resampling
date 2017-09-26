@@ -14,7 +14,7 @@ Ideally the "config.txt" is the only file that you need to modify to carry out t
 6. Total number of iterations to run GPS-Rosetta. The algorithm quits automatically when it reaches convergence (or) it iterates to a total number of specified iterations as given here. </br>
 7. Current iteration, defaults to zero (0). This number updates automatically with increase in iteration by the algorithm. However, if you want to restart your run from any iteration, modify the line to desired iteration. </br>
 
-# Modify the headers of all ".sh" files </br>
+# Modify the headers in all of the ".sh" files </br>
 You have to modify the headers to match the job queuing system on your super computer. especially walltime and ncpus. The given headers work on "NCI's Raijin" </br>
 "#PBS -P xc4" </br>
 "#PBS -q normal" </br>

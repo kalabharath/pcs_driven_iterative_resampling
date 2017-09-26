@@ -17,7 +17,7 @@ See the README files in all of the folders in the "./sample_run" for detailed ex
  Download from https://www.rosettacommons.org/software/academic </br>
 -Compile Rosetta on any cluster or supercomputer with MPI enabled. </br>
 -Python 2.7 </br>
--The current scripts are written for PBS load balancer, modify yourself for any other job submission platforms. </br>
+-The current scripts are written for PBS load balancer. </br>
 
 # Support
 I will answer any of your questions on using PCSs in Rosetta. email me at kalabharath@gmail.com </br>
