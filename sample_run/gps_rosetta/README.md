@@ -26,7 +26,8 @@ You have to modify the headers to match the job queuing system on your super com
 "module load openmpi" </br>
 Also change the "mpirun" variable to match the ncpus </br>
 
-# The Algorithm is encoded in four .sh files as
+# The Algorithm is encoded in four ".sh" files: 
 
+Submit the auto_cs.sh to the job queing system. The algorithm runs and terminates automatically, provided that sufficient wall times are specified in the ".sh" files. </br>
 ![Screenshot](https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
 
