@@ -28,5 +28,5 @@ Also change the "mpirun" variable to match the ncpus </br>
 
 # The Algorithm is encoded in four .sh files as
 
-![Screenshot] (https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
+![Screenshot](https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
 
