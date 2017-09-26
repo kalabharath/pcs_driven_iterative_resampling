@@ -44,7 +44,7 @@ echo $run
 $run
 
 # combine all of the individual files into one manageable file.
-cat *.silent > ${protein}.silent_file
+cat *.silent > ${protein}.silent_file ; rm *.silent
 
 # Compute the weights
 python auto_rescore.py ${arg4} > /dev/null
