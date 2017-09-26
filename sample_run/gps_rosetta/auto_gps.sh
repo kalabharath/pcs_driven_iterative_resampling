@@ -1,6 +1,6 @@
 #PBS -P xc4
 #PBS -q normal
-#PBS -l walltime=6:00:00
+#PBS -l walltime=5:00:00
 #PBS -l mem=2000GB
 #PBS -l ncpus=1024
 #PBS -l wd
@@ -47,4 +47,4 @@ run="$mpirun $Executable $database $arg1 $arg2 $arg3 $arg4 $arg5 $arg6 $arg7 $ar
 echo $run
 $run
 
-qsub auto_extract_relax.sh
+qsub auto_extract_relax.sh"
