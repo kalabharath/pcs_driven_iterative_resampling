@@ -14,6 +14,7 @@ The chemical-tag geometry (or) Possible metal positions relative to the protein,
 
 
 * 3. GPS Rosetta </br>
+
 This folder contains all of the files necessary to run "Iterative GPS-Rosetta algorithm" on the 7-TM bacterio-rhodposin (1H68). </br> 
 Adapt the format for your own system. </br>
 This is a working setup for '1H68'. Download the expected results from (url) </br>
