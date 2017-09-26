@@ -13,10 +13,11 @@ download the article from http://www.sciencedirect.com/science/article/pii/S0022
 See the README files in all of the folders in the "./sample_run" for detailed explanation of different files and scripts needed for running the protocol. Please modify all of the relevant files for your own protein system. </br>
 
 # Dependencies
--Rosetta, any version from 2015 - till date. Last tested on version 3.8. Download from https://www.rosettacommons.org/software/academic </br>
+-Rosetta, any version from 2015 - till date. Last tested on version 3.8. </br>
+ Download from https://www.rosettacommons.org/software/academic </br>
 -Compile Rosetta on any cluster or supercomputer with MPI enabled. </br>
--The current scripts are written for PBS load balancer, modify yourself for any other job submission platforms. </br>
 -Python 2.7 </br>
+-The current scripts are written for PBS load balancer, modify yourself for any other job submission platforms. </br>
 
 # Support
 I will answer any of your questions on using PCSs in Rosetta. email me at kalabharath@gmail.com </br>
