@@ -15,7 +15,7 @@ Ideally the "config.txt" is the only file that you need to modify to carry out t
 7. Current iteration, defaults to zero (0). This number updates automatically with increase in iteration by the algorithm. However, if you want to restart your run from any iteration, modify the line to desired iteration. </br>
 
 # Modify the headers in all of the ".sh" files </br>
-You have to modify the headers to match the job queuing system on your super computer. especially walltime and ncpus. The given headers work on "NCI's Raijin" </br>
+You have to modify the headers to match the headers for the job queuing system on your super computer. especially walltime and ncpus. The given headers work on "NCI's Raijin" </br>
 "#PBS -P xc4" </br>
 "#PBS -q normal" </br>
 "#PBS -l walltime=6:00:00" </br>
