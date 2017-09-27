@@ -18,7 +18,7 @@ iter=$(sed -n '8p' config.txt)
 iter="$(cut -d'=' -f2 <<<"$iter")"
 arg1="-abinitio::increase_cycles 4.0"
 arg2="-abinitio::rg_reweight 0.5 -abinitio::rsd_wt_helix 0.5 -abinitio::rsd_wt_loop 0.5 -abinitio::use_filters false"
-arg3="-nstruct 1023"
+arg3="-nstruct 1022"
 arg4="-mute all"
 arg5="-frag9 ./frag9_${protein}_r${iter}.tab"
 arg6="-frag3 ./frag3_${protein}_r${iter}.tab"
