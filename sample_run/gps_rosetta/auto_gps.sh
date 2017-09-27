@@ -47,4 +47,6 @@ run="$mpirun $Executable $database $arg1 $arg2 $arg3 $arg4 $arg5 $arg6 $arg7 $ar
 echo $run
 $run
 
-qsub auto_extract_relax.sh"
+new_job="qsub auto_extract_relax.sh"
+echo $new_job
+$new_job
