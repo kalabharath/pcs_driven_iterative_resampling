@@ -55,7 +55,7 @@ def updateIteration(iteration):
     fout = open("config.txt", 'w')
     for i in range(0, len(lines) - 1):
         fout.write(lines[i])
-    tline = lines[6].split("=")
+    tline = lines[-1].split("=")
     tmp = tline[0] + "=" + str(iteration)
     fout.write(tmp)
     fout.close()
