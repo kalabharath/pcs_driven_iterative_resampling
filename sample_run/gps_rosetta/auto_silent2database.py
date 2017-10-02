@@ -105,6 +105,7 @@ def silent2tensor(silentfile, tags):
         exe_path = exe_path[1]
         database_path = (os.popen("sed -n '5p' config.txt").read()).rstrip()
         database_path = database_path.split("=")
+        print database_path
         database_path = '-database ' + database_path[1]
         silentin = "-in:file:silent " + entry + str(".silent")
         extras = "-in:file:fullatom -mute all"
@@ -114,7 +115,7 @@ def silent2tensor(silentfile, tags):
         for i in range(0, len(tags)):
             tensor = tensor + "-PCSTS" + str(i + 1) + ":write_extra " + entry + "_Ts" + str(i + 1) + ".tensor  "
         score_wts = "-score:weights pcsweight.patch -mute all"
-        run_score = mpi + " " + exe_path + " " + database_path + " " + silentin + " " + tensor + " " + extras + " " + broker + " " + score_wts + "&"
+        run_score = mpi + " " + exe_path + " " + database_path + " " + silentin + " " + tensor + " " + extras + " " + broker + " " + score_wts
         print run_score
         os.system(run_score)
         time.sleep(0.5)
