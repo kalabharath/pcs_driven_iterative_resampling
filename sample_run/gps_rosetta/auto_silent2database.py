@@ -202,7 +202,7 @@ for wt in wts:
     current_wts.append(float(wf))
     tags.append(tag.strip())
 
-silent2tensor(silentfile,tags)
+#silent2tensor(silentfile,tags)
 score_dict = {}
 with open("pcs_" + protein + "_relax_top_rescore_r" + str(current_iter) + ".fsc") as fin:
     scorelines = fin.readlines()
@@ -258,8 +258,8 @@ for file in top_100:
         if (len(window) == 9):
             tscores = []
 
-            for i in range(0, len(tags)):
-                tscores.append(score(window, tag_dicts[i]))
+            for t in range(0, len(tags)):
+                tscores.append(score(window, tag_dicts[t]))
 
             if len(tscores) == 4:
                 if fourCtwo(tscores):
