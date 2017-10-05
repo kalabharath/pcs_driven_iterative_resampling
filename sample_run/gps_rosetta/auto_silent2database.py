@@ -5,7 +5,8 @@ import time
 def checkConvergence(protein, current_iter):
 
     lowest_score = []
-    for i in range(0, current_iter):
+    desc = []
+    for i in range(0, current_iter+1):
 
         infile = "pcs_"+protein+"_relax_top_rescore_r"+str(i)+".fsc"
         print infile
@@ -31,7 +32,7 @@ def checkConvergence(protein, current_iter):
                 if tentry == tag:
                     tag_indices.append(j)
         t = []
-        print tag_indices
+        file_desc = {}
         for k in range(1,len(lines)):
             sline=lines[k].split()
             # use normalised pcs
@@ -41,11 +42,14 @@ def checkConvergence(protein, current_iter):
                     total_pcs_score = total_pcs_score + float(sline[tag_indices[j]])/current_wts[j]
                 total_pcs_score = round(total_pcs_score, 3)
                 t.append(total_pcs_score)
+                file_desc[total_pcs_score] = sline[-1]
         t.sort()
         lowest_score.append(t)
+        desc.append(file_desc)
     for q in range(1, len(lowest_score)-1):
         if lowest_score[q+1][0] >= lowest_score[q][0]:
             print "converge achieved at iteration: ", q
+            print "Lowest PCS Energy description is: ", desc[q][lowest_score[q][0]]
             sys.exit()
     return True
 
@@ -522,11 +526,8 @@ print "all done"
 database.close()
 database2.close()
 updateIteration(current_iter + 1)
-backup_dir = "backup_dir_r" + str(current_iter)
-make_dir = "mkdir " + backup_dir
-os.system(make_dir)
-mv_files = "mv S_* " + backup_dir
-os.system(mv_files)
+rm_files = "rm S_* "
+os.system(rm_files)
 cp_wts = "cp " + protein + "_r0.wts " + protein + "_r" + str(current_iter + 1) + ".wts"
 os.system(cp_wts)
 os.system("qsub auto_iter.sh")
