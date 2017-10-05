@@ -201,8 +201,11 @@ for wt in wts:
     tag, wf = wt.split("=")
     current_wts.append(float(wf))
     tags.append(tag.strip())
+# generate individual silent and tensor files
+silent2tensor(silentfile,tags)
 
-#silent2tensor(silentfile,tags)
+
+# Extract and generate best PCS satisfied fragments.
 score_dict = {}
 with open("pcs_" + protein + "_relax_top_rescore_r" + str(current_iter) + ".fsc") as fin:
     scorelines = fin.readlines()
