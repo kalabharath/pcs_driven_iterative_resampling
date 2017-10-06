@@ -2,6 +2,43 @@ import itertools
 import sys, os
 import time
 
+def extract_top_pdbs(desc, scores, iteration, protein):
+    silent_file = "-in:file:silent top_relax_top_" + protein + "_r"+str(iteration)+".silent_file "
+    infile = "pcs_"+protein+"_relax_top_rescore_r"+str(iteration)+".fsc"
+    tdesc = ' '
+    final_result = open("Final_results.txt", 'w')
+    for i in  range(0, 10):
+        tdesc = tdesc + desc[scores[i]][:-5]+" "
+        tline = "top scoring decoy is: rank: "+str(i+1)+" ; and the pdb file is :"+desc[scores[i]][:-5]+".pdb\n"
+        final_result.write(tline)
+        print "top scoring files are: rank: ", i+1, " pdb file is :", desc[scores[i]][:-5], ".pdb"
+    print tdesc
+    tline = "Ranked based on PCS energies, extracted from file "+infile+"\n"
+    final_result.write(tline)
+    tline = "PDB files are extracted from the silent file "+"top_relax_top_" + protein + "_r"+str(iteration)+".silent_file \n"
+    final_result.write(tline)
+    final_result.close()
+    tags = "-in:file:tags "+tdesc
+    exe_path = (os.popen("sed -n '3p' config.txt").read()).rstrip()
+    exe_path = exe_path.split("=")
+    exe_path = exe_path[1]
+    print exe_path
+    exe_path = exe_path.split("/")
+    print exe_path
+    new_path = ''
+    for i in range(1,len(exe_path)-1):
+        new_path = new_path+'/'+exe_path[i]
+    new_path = new_path+"/"+"extract_pdbs.mpi.linuxgccrelease "
+    database_path = (os.popen("sed -n '5p' config.txt").read()).rstrip()
+    database_path = database_path.split("=")
+    database_path = '-database ' + database_path[1]
+
+    mpirun= "mpirun -np 2 "
+    run = mpirun+new_path+database_path+" "+silent_file+tags
+    print run
+    os.system(run)
+    return True
+
 def checkConvergence(protein, current_iter):
 
     lowest_score = []
@@ -50,6 +87,7 @@ def checkConvergence(protein, current_iter):
         if lowest_score[q+1][0] >= lowest_score[q][0]:
             print "converge achieved at iteration: ", q
             print "Lowest PCS Energy description is: ", desc[q][lowest_score[q][0]]
+            extract_top_pdbs(desc[q], lowest_score[q], q, protein)
             sys.exit()
     return True
 
