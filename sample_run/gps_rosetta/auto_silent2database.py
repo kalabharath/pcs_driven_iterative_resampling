@@ -229,6 +229,9 @@ db9_dict, db3_dict = {}, {}
 frag9_db, frag3_db = {}, {}
 
 protein, current_iter = setup_variables()
+"""
+Delete the next two lines if you don't want to check for convergence and run a specific number of iterations
+"""
 if current_iter > 1:
     checkConvergence(protein, current_iter)
 
