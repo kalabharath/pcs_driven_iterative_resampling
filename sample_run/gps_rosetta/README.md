@@ -31,3 +31,6 @@ Also change the "mpirun" variable to match the ncpus </br>
 Submit the auto_cs.sh to the job queing system. The algorithm runs and terminates automatically, provided that sufficient wall times are specified in the ".sh" files. </br>
 ![Screenshot](https://raw.githubusercontent.com/kalabharath/pcs_driven_iterative_resampling/master/sample_run/gps_rosetta/iterGPSrosetta.png)
 
+# Termination
+Upon reaching convergence (where the PCS energy is not dropped any further), the program automatically exits and generates the top10 lowest energy scoring decoys in pdb format and the corresponding ranking of the decoys is shown in the file "Final_results.txt" </br>
+If you want to run a specific number of iterations and not to check for convergence, delete or comment lines 235 and 236 in the file "auto_silent2database.py"
