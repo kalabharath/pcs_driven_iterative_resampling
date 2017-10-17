@@ -20,4 +20,4 @@ See the README files in all of the folders in the "./sample_run" for detailed ex
 -The current scripts are written for PBS load balancer. </br>
 
 # Support
-I will answer any of your questions on using PCSs in Rosetta. email me at kalabharath@gmail.com </br>
+For any of your questions on using PCSs in Rosetta, please email me at kalabharath@gmail.com </br>
